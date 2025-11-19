@@ -392,7 +392,7 @@ func (mb *MobileBackup) decryptDatabase(fn string, mk []byte) (string, error) {
 		return "", fmt.Errorf("No manifest key for class %d", class)
 	}
 	key := aeswrap.Unwrap(ckey, mk[4:])
-	fmt.Println("Got manifest key", key)
+	fmt.Fprintf(os.Stderr, "Got manifest key %s\n", key)
 	data, err := ioutil.ReadFile(fn)
 	if err != nil {
 		return "", err

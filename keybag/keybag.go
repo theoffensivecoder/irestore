@@ -11,6 +11,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"os"
 
 	"encoding/hex"
 
@@ -136,7 +137,7 @@ func (kb *Keybag) SetPassword(password string) error {
 			passkey = pbkdf2.Key(passkey, kb.AuxSalt, int(kb.AuxIter), 32, sha256.New)
 		}
 		passkey = pbkdf2.Key(passkey, kb.Salt, int(kb.Iter), 32, sha1.New)
-		fmt.Println("key derivation took", time.Now().Sub(start), "use the password", hex.EncodeToString(passkey), "to skip")
+		fmt.Fprintf(os.Stderr, "key derivation took", time.Now().Sub(start), "use the password", hex.EncodeToString(passkey), "to skip")
 	}
 
 	for _, key := range kb.Keys {
