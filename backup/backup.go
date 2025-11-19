@@ -414,7 +414,6 @@ func (mb *MobileBackup) decryptDatabase(fn string, mk []byte) (string, error) {
 
 func (mb *MobileBackup) readNewManifest() ([]byte, error) {
 	var err error
-	fmt.Println("load")
 	tmp := path.Join(mb.Dir, "Manifest.db")
 	mk := mb.Manifest.ManifestKey
 
