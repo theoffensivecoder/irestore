@@ -151,7 +151,7 @@ func parseRecord(data []byte) map[string]interface{} {
 	rval := make(map[string]interface{})
 	_, err := asn1.Unmarshal(data, &v)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Fprintf(os.Stderr, "Error parsing record: %v\n", err)
 		ioutil.WriteFile("failed.bin", data, 0644)
 	}
 	keys := make([]string, 0, len(v))
@@ -190,13 +190,13 @@ func dumpKeyGroup(db *backup.MobileBackup, group []KCEntry) []interface{} {
 			// Find key for class
 			ckey := db.Keybag.GetClassKey(class)
 			if ckey == nil {
-				fmt.Println("No key for class", class, string(key.Ref)[:4], key.Ref[4:])
+				fmt.Fprintf(os.Stderr, "No key for class %d (ref: %s%v)\n", class, string(key.Ref)[:4], key.Ref[4:])
 				continue
 			}
 
 			aesKey := aeswrap.Unwrap(ckey, wkey)
 			if aesKey == nil {
-				fmt.Println("unwrap failed for class", class)
+				fmt.Fprintf(os.Stderr, "unwrap failed for class %d\n", class)
 				continue
 			}
 			// Create a gcm cipher
@@ -299,7 +299,7 @@ func unparseRecord(record map[string]interface{}) []byte {
 
 	entries, err := asn1.Marshal(v)
 	if err != nil {
-		fmt.Println("Error marshaling record:", err)
+		fmt.Fprintf(os.Stderr, "Error marshaling record: %v\n", err)
 	}
 
 	return entries
