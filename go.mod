@@ -1,4 +1,4 @@
-module github.com/dnicolson/irestore
+module github.com/theoffensivecoder/irestore
 
 go 1.18
 

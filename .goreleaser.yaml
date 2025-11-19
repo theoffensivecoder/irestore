@@ -38,7 +38,7 @@ builds:
     goos:
       - windows
     goarch:
-      - 386
+      - "386"
   - id: linux-amd64
     main: ./cmd/irestore
     env:
